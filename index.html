@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wrestling Missing Link</title>
+    <style>
+        :root {
+            --bg-dark: #0a0c0e;
+            --panel-bg: #12161a;
+            --card-bg: #181e24;
+            --border-color: #2a343d;
+            --accent-green: #00ff66;
+            --accent-green-glow: rgba(0, 255, 102, 0.25);
+            --accent-gold: #d4af37;
+            --text-main: #f0f4f8;
+            --text-muted: #8b9bb0;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            background-image: radial-gradient(#1e2630 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(18, 22, 26, 0.95) 0%, rgba(10, 12, 14, 0.95) 100%);
+            border-bottom: 2px solid var(--accent-green);
+            padding: 24px 200px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px var(--accent-green-glow);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #ffffff, var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: var(--radius);
+            width: 260px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green-glow);
+        }
+
+        .btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37, #aa820a);
+            color: #000;
+            border: none;
+            font-weight: 800;
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            color: #000;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            scrollbar-width: thin;
+        }
+
+        .filter-chip {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip:hover, .filter-chip.active {
+            background: var(--card-bg);
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green-glow);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .bookmark-btn.active, .bookmark-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .tag-category {
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+        }
+
+        .tag-platform {
+            background: #271e3b;
+            color: #c084fc;
+            border: 1px solid #9333ea;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--panel-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .spinner-box {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--border-color);
+            margin: 20px 0;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: var(--card-bg);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-green);
+            color: #000;
+            font-weight: 800;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transform: translateY(100px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <span class="logo-icon">⛓️</span>
+                <div>
+                    <h1>The Wrestling Missing Link</h1>
+                </div>
+            </div>
+            <div class="controls">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search archive database...">
+                <button class="btn btn-gold" id="randomBtn">⛓️ Chain Breaker</button>
+                <button class="btn" id="layoutToggle">Layout: Grid</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters" id="categoryFilters">
+            <button class="filter-chip active" data-cat="all">All Archives</button>
+            <button class="filter-chip" data-cat="bookmarks">⭐ Bookmarks</button>
+            <button class="filter-chip" data-cat="WWE">WWE / WWF</button>
+            <button class="filter-chip" data-cat="WCW">WCW</button>
+            <button class="filter-chip" data-cat="AEW">AEW</button>
+            <button class="filter-chip" data-cat="ECW">ECW</button>
+            <button class="filter-chip" data-cat="NJPW">NJPW / Puroresu</button>
+            <button class="filter-chip" data-cat="ROH">ROH</button>
+            <button class="filter-chip" data-cat="Indies">Indies / Deathmatch</button>
+            <button class="filter-chip" data-cat="Territories">Territories / Classic</button>
+            <button class="filter-chip" data-cat="Joshi">Joshi</button>
+        </div>
+
+        <div class="grid" id="linksGrid"></div>
+    </div>
+
+    <!-- Randomizer Modal -->
+    <div class="modal-overlay" id="randomModal">
+        <div class="modal">
+            <h2 style="color: var(--accent-gold); text-transform: uppercase;">Chain Breaker Picker</h2>
+            <p style="color: var(--text-muted); margin-top: 8px;">Breaking watch paralysis...</p>
+            <div class="spinner-box" id="spinnerText">Press Pick to Start</div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-gold" id="spinTriggerBtn">Spin Link</button>
+                <a id="launchSelectedBtn" class="btn" style="display: none; background: var(--accent-green); color: #000;" target="_blank">Launch Link</a>
+                <button class="btn" id="closeModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Link copied to clipboard!</div>
+
+    <script>
+        const archives = [
+            { id: 1, name: "AEW PPVs 2026", url: "https://archive.org/details/aewppv", cat: "AEW", platform: "Internet Archive" },
+            { id: 2, name: "AEW Dark", url: "https://youtube.com/playlist?list=PLILTWWX_AIJQWi63ehKrNGZjXm4cnhtJu", cat: "AEW", platform: "YouTube" },
+            { id: 3, name: "AEW Dark Elevation", url: "https://youtube.com/playlist?list=PLILTWWX_AIJRo4ytGYfhO2Wd2gEMimcxd", cat: "AEW", platform: "YouTube" },
+            { id: 4, name: "AEW Close-Up Interviews", url: "https://archive.org/details/aewcloseup", cat: "AEW", platform: "Internet Archive" },
+            { id: 5, name: "Wrestling Shoot Interviews", url: "https://archive.org/details/wrestlingshoots", cat: "Indies", platform: "Internet Archive" },
+            { id: 6, name: "WWE Documentary Collection", url: "https://archive.org/details/wwedocs01", cat: "WWE", platform: "Internet Archive" },
+            { id: 7, name: "WWE ECW on Sci Fi Full Collection (2006-2010)", url: "https://archive.org/details/wweecw", cat: "ECW", platform: "Internet Archive" },
+            { id: 8, name: "WWE Vault Channel", url: "https://youtube.com/@wwevault", cat: "WWE", platform: "YouTube" },
+            { id: 9, name: "Monday Night Wars Complete (WWF/WCW/ECW)", url: "https://notnet.puter.site/#/?p=WWF", cat: "WWE", platform: "Puter" },
+            { id: 10, name: "WWE Velocity 2003", url: "https://archive.org/details/wwe-velocity-january-4-2003-hallo-riched-480p-h-264-youtube_202502", cat: "WWE", platform: "Internet Archive" },
+            { id: 11, name: "WWE Pay-Per-Views (2002-2005)", url: "https://archive.org/details/2002-12-15-noddegamr-a", cat: "WWE", platform: "Internet Archive" },
+            { id: 12, name: "WWF SmackDown (2002-2011)", url: "https://archive.org/details/wwesd01", cat: "WWE", platform: "Internet Archive" },
+            { id: 13, name: "WWE SmackDown (2012-2018)", url: "https://archive.org/details/wwesd02", cat: "WWE", platform: "Internet Archive" },
+            { id: 14, name: "WWE SmackDown (2019-2025)", url: "https://archive.org/details/wwesd03", cat: "WWE", platform: "Internet Archive" },
+            { id: 15, name: "WWE SmackDown (2025-2026)", url: "https://archive.org/details/wwesd04", cat: "WWE", platform: "Internet Archive" },
+            { id: 16, name: "WWF Monday Night RAW (1993-2002)", url: "https://archive.org/details/wwfmnr", cat: "WWE", platform: "Internet Archive" },
+            { id: 17, name: "WWE Monday Night RAW (2002-2008)", url: "https://archive.org/details/wwemnr01", cat: "WWE", platform: "Internet Archive" },
+            { id: 18, name: "WWE Monday Night RAW (2009-2013)", url: "https://archive.org/details/wwemnr02", cat: "WWE", platform: "Internet Archive" },
+            { id: 19, name: "WWE Monday Night RAW (2014-2017)", url: "https://archive.org/details/wwemnr03", cat: "WWE", platform: "Internet Archive" },
+            { id: 20, name: "WWE Monday Night RAW (2018-2020)", url: "https://archive.org/details/wwemnr04", cat: "WWE", platform: "Internet Archive" },
+            { id: 21, name: "WWE Monday Night RAW (2021-2024)", url: "https://archive.org/details/wwemnr05", cat: "WWE", platform: "Internet Archive" },
+            { id: 22, name: "WWE Monday Night RAW (2025-2026)", url: "https://archive.org/details/wwemnr06", cat: "WWE", platform: "Internet Archive" },
+            { id: 23, name: "80s Lucha Classic Matches", url: "https://archive.org/details/1982-02-14-gran-hamada-vs.-centurion-negro-c-special-guest-referee-lou-thesz-two", cat: "Territories", platform: "Internet Archive" },
+            { id: 24, name: "NJPW 1977-1981 Samurai Classics", url: "https://archive.org/details/njpw-samurai-classics-1977-1981-60fps", cat: "NJPW", platform: "Internet Archive" },
+            { id: 25, name: "NJPW 1977-1984 Rare Selections", url: "https://archive.org/details/njpw-rare-selection-1977-1984-60fps", cat: "NJPW", platform: "Internet Archive" },
+            { id: 26, name: "NJPW World Pro-Wrestling (1982-1983)", url: "https://archive.org/details/njpw-world-pro-wrestling-1982-2-1983-60fps", cat: "NJPW", platform: "Internet Archive" },
+            { id: 27, name: "NJPW Tokon V History (1991-1997)", url: "https://archive.org/details/njpw-tokon-v-history", cat: "NJPW", platform: "Internet Archive" },
+            { id: 28, name: "NJPW Assorted Match Collection (1996-2014)", url: "https://archive.org/details/njpw19962014", cat: "NJPW", platform: "Internet Archive" },
+            { id: 29, name: "NJPW vs NOAH Interpromotional", url: "https://archive.org/details/pro-wrestling-noah-vs-new-japan-pro-wrestling", cat: "NJPW", platform: "Internet Archive" },
+            { id: 30, name: "NJPW G1 Climax Compilation (1991-2000)", url: "https://archive.org/details/hyper-history-of-g1-climax-1991-2000", cat: "NJPW", platform: "Internet Archive" },
+            { id: 31, name: "UWFI Strongest Legend (1991-1996)", url: "https://archive.org/details/uwf-international-strongest-legend-vol-1-and-2-1991-1996", cat: "NJPW", platform: "Internet Archive" },
+            { id: 32, name: "CZW Crushing the Competition (2001)", url: "https://archive.org/details/czw-crushing-the-competition", cat: "Indies", platform: "Internet Archive" },
+            { id: 33, name: "CZW Best of the Best 5 & 6", url: "https://archive.org/details/czw-best-of-the-best-5", cat: "Indies", platform: "Internet Archive" },
+            { id: 34, name: "IWA Mid-South Collection (2003-2005)", url: "https://archive.org/details/iwa-mid-south-clarksville-1-11-2003", cat: "Indies", platform: "Internet Archive" },
+            { id: 35, name: "PWG Classic Archives (2004-2007)", url: "https://archive.org/details/pwg.-2004.01.25.-tango.and.-cash.-invitational.-night.-2.-dvdrip.x-264-rudos", cat: "Indies", platform: "Internet Archive" },
+            { id: 36, name: "PWG Full Matches & Shows", url: "https://youtube.com/playlist?list=PLfsTokE6qLUcb8OH5c-xfFy5YhLb1hTSe", cat: "Indies", platform: "YouTube" },
+            { id: 37, name: "BJW Big Japan Deathmatch Archives", url: "https://archive.org/details/all-asia-28-04-2011", cat: "Indies", platform: "Internet Archive" },
+            { id: 38, name: "TNA The Asylum Years (2002-2004)", url: "https://archive.org/details/2002-08-28-nwa-tna-ppv-11", cat: "Indies", platform: "Internet Archive" },
+            { id: 39, name: "TNA Complete PPVs (2004-2026)", url: "https://archive.org/details/tnappv", cat: "Indies", platform: "Internet Archive" },
+            { id: 40, name: "ROH TV Complete Collection (2009-2023)", url: "https://archive.org/details/rohtv", cat: "ROH", platform: "Internet Archive" },
+            { id: 41, name: "ROH Golden Era Shows (2002-2006)", url: "https://archive.org/details/roh-round-robin-challenge", cat: "ROH", platform: "Internet Archive" },
+            { id: 42, name: "Dragon Gate Archives", url: "https://archive.org/details/01.08.2021-dragongate-kobe-pro-wrestling-festival-2021-tag-2-speed-star-final-480p-via-skyload", cat: "NJPW", platform: "Internet Archive" },
+            { id: 43, name: "TJPW & Joshi Pure Explorer Vault", url: "https://archive.org/details/Thunderqueen", cat: "Joshi", platform: "Internet Archive" },
+            { id: 44, name: "WCW Saturday Night Complete (1989-1998)", url: "https://archive.org/details/1.7.89", cat: "WCW", platform: "Internet Archive" },
+            { id: 45, name: "WCW Main Event Complete (1990-1997)", url: "https://archive.org/details/1990-12-23", cat: "WCW", platform: "Internet Archive" },
+            { id: 46, name: "WCW Worldwide Complete (1990-1999)", url: "https://archive.org/details/1990.07.21", cat: "WCW", platform: "Internet Archive" },
+            { id: 47, name: "WCW Pay-Per-Views Complete (1989-2001)", url: "https://archive.org/details/1989-12-13-edacrrat-s", cat: "WCW", platform: "Internet Archive" },
+            { id: 48, name: "ECW Pay-Per-Views Complete (1997-2001)", url: "https://archive.org/details/2000-3-12-ylsuoregna-d-gnivi-l-wce", cat: "ECW", platform: "Internet Archive" },
+            { id: 49, name: "Four Pillars of Heaven Playlists (Misawa, Kawada, Kobashi)", url: "https://youtube.com/playlist?list=PLVKKMYw3owCuVjyCGV2QrXrVQWZH6I2_e", cat: "NJPW", platform: "YouTube" },
+            { id: 50, name: "Smokey Mountain Wrestling (Episodes 1-71)", url: "https://youtube.com/playlist?list=PLytKdmoOUJ7jI3JMXr-MCreoLw4LPclPE", cat: "Territories", platform: "YouTube" }
+        ];
+
+        let state = {
+            currentCategory: 'all',
+            searchQuery: '',
+            isGridView: true,
+            bookmarks: JSON.parse(localStorage.getItem('wml_bookmarks') || '[]'),
+            selectedRandom: null
+        };
+
+        const gridEl = document.getElementById('linksGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function render() {
+            let filtered = archives.filter(item => {
+                const matchesCat = state.currentCategory === 'all' 
+                    || (state.currentCategory === 'bookmarks' && state.bookmarks.includes(item.id))
+                    || item.cat === state.currentCategory;
+                
+                const matchesSearch = item.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+                    || item.platform.toLowerCase().includes(state.searchQuery.toLowerCase())
+                    || item.cat.toLowerCase().includes(state.searchQuery.toLowerCase());
+
+                return matchesCat && matchesSearch;
+            });
+
+            gridEl.className = `grid ${state.isGridView ? '' : 'list-view'}`;
+
+            if (filtered.length === 0) {
+                gridEl.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No wrestling archives found matching your query.</div>`;
+                return;
+            }
+
+            gridEl.innerHTML = filtered.map(item => {
+                const isBookmarked = state.bookmarks.includes(item.id);
+                return `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">${item.name}</div>
+                            <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" onclick="toggleBookmark(${item.id})">
+                                ${isBookmarked ? '★' : '☆'}
+                            </button>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag tag-category">${item.cat}</span>
+                            <span class="tag tag-platform">${item.platform}</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="${item.url}" target="_blank" class="btn btn-gold">Watch Link</a>
+                            <button class="btn" onclick="copyToClipboard('${item.url}')">Copy URL</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleBookmark(id) {
+            if (state.bookmarks.includes(id)) {
+                state.bookmarks = state.bookmarks.filter(bId => bId !== id);
+            } else {
+                state.bookmarks.push(id);
+            }
+            localStorage.setItem('wml_bookmarks', JSON.stringify(state.bookmarks));
+            render();
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Search listener
+        searchInput.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            render();
+        });
+
+        // Category Filter listener
+        document.getElementById('categoryFilters').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-chip')) {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                e.target.classList.add('active');
+                state.currentCategory = e.target.dataset.cat;
+                render();
+            }
+        });
+
+        // Layout Toggle
+        document.getElementById('layoutToggle').addEventListener('click', () => {
+            state.isGridView = !state.isGridView;
+            document.getElementById('layoutToggle').innerText = `Layout: ${state.isGridView ? 'Grid' : 'List'}`;
+            render();
+        });
+
+        // Chain Breaker Modal logic
+        const modal = document.getElementById('randomModal');
+        const spinnerText = document.getElementById('spinnerText');
+        const launchSelectedBtn = document.getElementById('launchSelectedBtn');
+
+        document.getElementById('randomBtn').addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        document.getElementById('spinTriggerBtn').addEventListener('click', () => {
+            let counter = 0;
+            launchSelectedBtn.style.display = 'none';
+            
+            const interval = setInterval(() => {
+                const randIndex = Math.floor(Math.random() * archives.length);
+                spinnerText.innerText = archives[randIndex].name;
+                counter++;
+
+                if (counter > 15) {
+                    clearInterval(interval);
+                    state.selectedRandom = archives[randIndex];
+                    spinnerText.innerText = `🎯 ${state.selectedRandom.name}`;
+                    launchSelectedBtn.href = state.selectedRandom.url;
+                    launchSelectedBtn.style.display = 'inline-flex';
+                }
+            }, 80);
+        });
+
+        // Initial Render
+        render();
+    </script>
+</body>
+</html>
