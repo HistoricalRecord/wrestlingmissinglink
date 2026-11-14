@@ -246,6 +246,7 @@
 
         .tag-category { background: #2a1f18; color: #ff9933; border: 1px solid #cc5200; }
         .tag-platform { background: #18242a; color: #38bdf8; border: 1px solid #0284c7; }
+        .tag-youtube { background: #2a1414; color: #ff4d4d; border: 1px solid #cc0000; }
 
         .card-actions {
             display: flex;
@@ -353,6 +354,7 @@
         <div class="filters" id="categoryFilters">
             <button class="filter-chip active" data-cat="all">All Archives</button>
             <button class="filter-chip" data-cat="bookmarks">⭐ Bookmarks</button>
+            <button class="filter-chip" data-cat="YouTube">📺 YouTube Channels</button>
             <button class="filter-chip" data-cat="WWE">WWE / WWF</button>
             <button class="filter-chip" data-cat="WCW">WCW</button>
             <button class="filter-chip" data-cat="TNA">TNA / Impact</button>
@@ -469,7 +471,7 @@
             { id: 65, name: "Smokey Mountain Wrestling TV (1992)", url: "https://archive.org/details/smw-tv-1992-06-20", cat: "Territories", platform: "Internet Archive" },
             { id: 66, name: "Smokey Mountain Wrestling TV (1993)", url: "https://archive.org/details/smw-tv-1993-01-23", cat: "Territories", platform: "Internet Archive" },
             { id: 67, name: "Smokey Mountain Wrestling TV (1994)", url: "https://archive.org/details/smw-tv-1994-03-05", cat: "Territories", platform: "Internet Archive" },
-            { id: 68, name: "Smokey Mountain Wrestling TV (1995)", url: "https://archive.org/details/smw-tv-1995-04-15", cat: "Territories", platform: "Territories", platform: "Internet Archive" },
+            { id: 68, name: "Smokey Mountain Wrestling TV (1995)", url: "https://archive.org/details/smw-tv-1995-04-15", cat: "Territories", platform: "Internet Archive" },
             { id: 69, name: "Ric Flair NWA World Title Defense vs. Ricky Steamboat (1989)", url: "https://archive.org/details/1989-05-07-ric-flair-vs.-ricky-steamboat-c-nwa-world-heavyweight-championship-wr", cat: "Territories", platform: "Internet Archive" },
             { id: 70, name: "Mid-South Wrestling Ep. 120 (1981)", url: "https://archive.org/details/msw.-1981.12.23-mid-south-wrestling-ep-120-restored", cat: "Territories", platform: "Internet Archive" },
             { id: 71, name: "Mid-South Wrestling Ep. 195 (1983)", url: "https://archive.org/details/msw.-1983.06.02-mid-south-wrestling-ep-195-restored-k-81.x-265", cat: "Territories", platform: "Internet Archive" },
@@ -489,7 +491,28 @@
             { id: 83, name: "Wrestling Headcanon Vault (Part 1)", url: "https://archive.org/details/headcanon01", cat: "Headcanon", platform: "Internet Archive" },
             { id: 84, name: "Wrestling Headcanon Vault (Part 2)", url: "https://archive.org/details/headcanon02", cat: "Headcanon", platform: "Internet Archive" },
             { id: 85, name: "Wrestling Headcanon Vault (Part 3)", url: "https://archive.org/details/headcanon03", cat: "Headcanon", platform: "Internet Archive" },
-            { id: 86, name: "Slam Vision 24/7 Wrestling Channel", url: "https://ring-channel-tv.emergent.host", cat: "Headcanon", platform: "Stream" }
+            { id: 86, name: "Slam Vision 24/7 Wrestling Channel", url: "https://ring-channel-tv.emergent.host", cat: "Headcanon", platform: "Stream" },
+
+            // YouTube Channels
+            { id: 87, name: "German Suplex Pro (@germansuplexpro)", url: "https://youtube.com/@germansuplexpro", cat: "YouTube", platform: "YouTube" },
+            { id: 88, name: "365 Wrestling (@365Wrestling)", url: "https://youtube.com/@365wrestling", cat: "YouTube", platform: "YouTube" },
+            { id: 89, name: "Classics Puro (@classicspuro837)", url: "https://youtube.com/@classicspuro837", cat: "YouTube", platform: "YouTube" },
+            { id: 90, name: "Devil Trigger (@deviltrigger6512)", url: "https://youtube.com/@deviltrigger6512", cat: "YouTube", platform: "YouTube" },
+            { id: 91, name: "Triple H In Depth (@IAmTheGame847)", url: "https://youtube.com/@iamthegame847", cat: "YouTube", platform: "YouTube" },
+            { id: 92, name: "Jack Shares AJPW and NOAH (@JackSharesAJPWandNOAH)", url: "https://youtube.com/@jacksharesajpwandnoah", cat: "YouTube", platform: "YouTube" },
+            { id: 93, name: "Kings AARK (@KingsAARK)", url: "https://youtube.com/@kingsaark", cat: "YouTube", platform: "YouTube" },
+            { id: 94, name: "JSG TV (@JSG_TV)", url: "https://youtube.com/@jsg_tv", cat: "YouTube", platform: "YouTube" },
+            { id: 95, name: "Legacy of Abyss (@legacyofabyss)", url: "https://youtube.com/@legacyofabyss", cat: "YouTube", platform: "YouTube" },
+            { id: 96, name: "PuroNerd (@PuroNerd)", url: "https://youtube.com/@puronerd", cat: "YouTube", platform: "YouTube" },
+            { id: 97, name: "Roy Lucier All Japan (@RoyLucierAllJapan)", url: "https://youtube.com/@roylucieralljapan", cat: "YouTube", platform: "YouTube" },
+            { id: 98, name: "Dec 1998 Shoot (@Dec1998Shoot)", url: "https://youtube.com/@dec1998shoot", cat: "YouTube", platform: "YouTube" },
+            { id: 99, name: "Steenalizer Archives (@steenalizerarchives)", url: "https://youtube.com/@steenalizerarchives", cat: "YouTube", platform: "YouTube" },
+            { id: 100, name: "Retro Wrestling Archive (@RetroWrestlingArchive)", url: "https://youtube.com/@retrowrestlingarchive", cat: "YouTube", platform: "YouTube" },
+            { id: 101, name: "The Best Lucha Libre (@the_best_lucha_libre2121)", url: "https://youtube.com/@the_best_lucha_libre2121", cat: "YouTube", platform: "YouTube" },
+            { id: 102, name: "ThunderFilez (@ThunderFilez)", url: "https://youtube.com/@thunderfilez", cat: "YouTube", platform: "YouTube" },
+            { id: 103, name: "Wrestling Bios (@WrestlingBios)", url: "https://youtube.com/@wrestlingbios", cat: "YouTube", platform: "YouTube" },
+            { id: 104, name: "WWE Vault (@WWEVault)", url: "https://youtube.com/@wwevault", cat: "YouTube", platform: "YouTube" },
+            { id: 105, name: "WCW Official (@WCW)", url: "https://youtube.com/@wcw", cat: "YouTube", platform: "YouTube" }
         ];
 
         let state = {
@@ -525,6 +548,7 @@
 
             gridEl.innerHTML = filtered.map(item => {
                 const isBookmarked = state.bookmarks.includes(item.id);
+                const platformClass = item.platform === 'YouTube' ? 'tag-youtube' : 'tag-platform';
                 return `
                     <div class="card">
                         <div class="card-header">
@@ -535,7 +559,7 @@
                         </div>
                         <div class="card-tags">
                             <span class="tag tag-category">${item.cat}</span>
-                            <span class="tag tag-platform">${item.platform}</span>
+                            <span class="tag ${platformClass}">${item.platform}</span>
                         </div>
                         <div class="card-actions">
                             <a href="${item.url}" target="_blank" class="btn btn-orange">Watch Link</a>
